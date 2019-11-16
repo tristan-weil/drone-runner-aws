@@ -1,0 +1,20 @@
+kind: pipeline
+type: aws
+name: default
+
+server:
+  ami: ami-024a4edbad921fd5c
+  type: t3.micro
+
+aws:
+  access_key_id: access
+  secret_access_key: secret
+
+clone:
+  disable: true
+
+steps:
+  - name: build
+    commands:
+      - go build
+      - go test

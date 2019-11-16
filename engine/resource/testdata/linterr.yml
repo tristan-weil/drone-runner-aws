@@ -1,0 +1,21 @@
+---
+kind: pipeline
+type: aws
+
+server:
+  ami: ami-024a4edbad921fd5c
+  type: t3.micro
+
+aws:
+  access_key_id:
+    from_secret: access
+  secret_access_key:
+    from_secret: secret
+
+steps:
+  - commands:
+      - go build
+      - go test
+
+
+...

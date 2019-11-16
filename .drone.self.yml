@@ -1,0 +1,22 @@
+---
+kind: pipeline
+type: aws
+name: linux-amd64
+
+server:
+  ami: ami-0f12326547f93ab6e
+  type: t2.micro
+  username: ec2-user
+  spot_price: 0.008
+
+steps:
+  - name: test
+    commands:
+      - go test -cover ./...
+
+  - name: build
+    commands:
+      - sh scripts/build.sh
+    environment:
+      GOARCH: amd64
+      GOOS: linux

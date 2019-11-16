@@ -1,0 +1,8 @@
+---
+kind: pipeline
+type: aws
+
+steps:
+  foo: bar
+
+...

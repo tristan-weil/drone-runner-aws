@@ -1,0 +1,58 @@
+---
+kind: signature
+hmac: a8842634682b78946a2
+
+---
+kind: secret
+type: encrypted
+name: access
+data: f0e4c2f76c58916ec25
+
+---
+kind: secret
+type: encrypted
+name: secret
+data: f0e4c2f76c58916ec25
+
+
+---
+kind: pipeline
+type: aws
+name: default
+version: 1
+
+workspace:
+  path: /drone/src
+
+clone:
+  depth: 50
+
+server:
+  ami: ami-024a4edbad921fd5c
+  type: t3.micro
+
+aws:
+  access_key_id:
+    from_secret: access
+  secret_access_key:
+    from_secret: secret
+
+steps:
+  - name: build
+    shell: /bin/sh
+    detach: false
+    failure: never
+    commands:
+      - go build
+      - go test
+    environment:
+      GOOS: linux
+      GOARCH: arm64
+    depends_on: [ clone ]
+    when:
+      event: [ push ]
+
+trigger:
+  branch: [ master ]
+
+...
